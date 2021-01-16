@@ -39,10 +39,10 @@ namespace JWTAuthorization.Controllers
 				signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
 				);
 
-			return Ok(new
+			return Ok(new LoginResponse
 			{
-				token = new JwtSecurityTokenHandler().WriteToken(token),
-				expiration = token.ValidTo
+				Token = new JwtSecurityTokenHandler().WriteToken(token),
+				Expiration = token.ValidTo
 			});
 		}
 	}
