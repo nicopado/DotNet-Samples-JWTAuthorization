@@ -61,9 +61,9 @@ namespace JWTAuthorization
 				{
 					ValidateIssuer = true,
 					ValidateAudience = true,
-					ValidAudience = "Audience",
-					ValidIssuer = "Issuer",
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_dirty_long_little_sercret_longer_longer"))
+					ValidAudience = Configuration["JWT:ValidAudience"],
+					ValidIssuer = Configuration["JWT:ValidIssuer"],
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
 				};
 			});
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,13 @@ namespace JWTAuthorization.Controllers
 	[Route("[controller]")]
 	public class AuthController : ControllerBase
 	{
+		private readonly IConfiguration configuration;
+
+		public AuthController(IConfiguration configuration)
+		{
+			this.configuration = configuration;
+		}
+
 		[HttpGet]
 		public async Task<IActionResult> Login()
 		{
@@ -21,11 +29,11 @@ namespace JWTAuthorization.Controllers
 				new Claim(ClaimTypes.Name, "userName"),
 			};
 
-			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_dirty_long_little_sercret_longer_longer"));
+			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JWT:Secret"]));
 
 			var token = new JwtSecurityToken(
-				issuer: "Issuer",
-				audience: "Audience",
+				issuer: this.configuration["JWT:ValidIssuer"],
+				audience: this.configuration["JWT:ValidAudience"],
 				expires: DateTime.Now.AddHours(3),
 				claims: authClaims,
 				signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
