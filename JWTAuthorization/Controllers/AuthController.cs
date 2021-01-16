@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JWTAuthorization.Controllers
 {
@@ -22,7 +21,7 @@ namespace JWTAuthorization.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Login()
+		public IActionResult Login()
 		{
 			var authClaims = new List<Claim>
 			{
